@@ -5,13 +5,17 @@ def GE_SP(A,b):
     A, b = np.asarray(A,dtype=np.float64),np.asarray(b,dtype=np.float64)
     Ab = np.asarray(np.c_[A, b],dtype=np.float64)
 
+
     for k in range(n):                          #for each column of A in Ab
         #Scaled Pivoting
-        for i in range(k+1,n):                      #for each values in that column below the diagonal
-            if abs(Ab[i][k]) > abs(Ab[k][k]):           #if one |value| is greater than another
-                Ab[[k,i]]=Ab[[i,k]]                         #swap the rows containing those values
-            else:                                       #otherwise
-                pass                                        #do nothing
+        ratiovects = np.zeros(n)
+        for i in range(k,n):                      #for each values in that column below the diagonal
+            ratiovects[i] = abs(Ab[i][k])/abs(max(np.max(A[i]),np.min(A[i]), key = abs))
+        #import ipdb; ipdb.set_trace()
+        Ab[[k, np.argmax(ratiovects)]] = Ab[[np.argmax(ratiovects), k]]
+        A[[k, np.argmax(ratiovects)]] = A[[np.argmax(ratiovects), k]]
+
+        #print(Ab)
 
         #Forward Elimination - Subtracting rows
         for j in range(k+1,n):                      #for each row under the diagonal of the kth column
@@ -19,7 +23,7 @@ def GE_SP(A,b):
             for m in range(k, n+1):                     #for each each column in a Row j
                 Ab[j][m] -=  q * Ab[k][m]                   #calculate Rj - q*Rk.  This will result in all zeros under the main diagonal
 
-    x = [0.0 for i in range(n)]                 #set of zeros
+    x = np.zeros(n)                #set of zeros
 
     #At this stage the matrix should be in row echelon form
         # this means all zeros below the main diagonal
