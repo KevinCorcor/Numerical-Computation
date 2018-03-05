@@ -1,6 +1,6 @@
 import numpy as np
 from pprint import pprint
-def GE_PP(A,b):
+def LU(A,b):
     n = len(A)
     A, b = np.asarray(A,dtype=np.float64),np.asarray(b,dtype=np.float64)
     L = np.asarray(np.identity(n))
@@ -31,7 +31,7 @@ def GE_PP(A,b):
 A = [[1,  2,  1, 4], [2, 0, 4, 3], [4,  2,  2, 1], [-3, 1, 3, 2]]
 b = [[13], [28], [20], [6]]
 
-L,U,P = GE_PP(A,b)
+L,U,P = LU(A,b)
 
 print('L: ')
 pprint(L)
