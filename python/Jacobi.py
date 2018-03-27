@@ -27,7 +27,7 @@ def Jacobi(A,B):
 
     while RE > 0.0009:
         for i  in range(0, len(x)):
-            xk[i] = (B[i] + EQN(A[i], x,i)) / A[i,i]
+            xk[i] = (B[i] + eqn(A[i], x,i)) / A[i,i]
 
         RE = (np.linalg.norm(xk - x,np.inf)) / (np.linalg.norm(xk,np.inf) + 0)
         x = xk.copy()
