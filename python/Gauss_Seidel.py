@@ -1,7 +1,7 @@
 import numpy as np
 
-A = np.asmatrix([[9,1,1],[2,10,3],[3,4,11]])
-B = np.asmatrix([[10],[19],[0]])
+A = np.asmatrix([[3,-1,1],[-1,3,-1],[1,-1,3]])
+B = np.asmatrix([[0],[0],[100]])
 
 def GS3x3(A,B):
     x = np.asmatrix(np.zeros(len(A),1))
@@ -40,7 +40,79 @@ def GS(A,B):
 
     return x
 
+def GSrec(A,B):
+    x = np.asmatrix(np.zeros((len(A),10)))
+    #xk = np.asmatrix(np.zeros((len(x),1)))
+    RE = 1
+    trial_no = 1
+    print("trial          x1          x2          x3          ...")
+    t=0
+    while t < 10:
+        if t>0: x[:,t] = x[:,t-1].copy()
+        for i  in range(0, len(x)):
+            x[i,t] = (B[i] + eqn(A[i], x[:,t],i)) / A[i,i]
 
+        RE = (np.linalg.norm(x[:,t] - x[:,t-1],np.inf)) / (np.linalg.norm(x[:,t],np.inf) + 0)
+        #x = xk.copy()
+
+        print(str(trial_no)+"\t"+str(x[:,t].T)+"\t"+str(RE))
+        t += 1
+        trial_no +=1
+    print("trial          x1          x2          x3          ...")
+
+    return x.T
+
+def GSrel(A,B):
+    x = np.asmatrix(np.zeros((len(A),11)))
+    #xk = np.asmatrix(np.zeros((len(x),1)))
+    RE = 1
+    trial_no = 1
+    print("trial          x1          x2          x3          ...")
+    t=0
+    w=1
+    while t < 11:
+        if t>0: x[:,t] = x[:,t-1].copy()
+        for i  in range(0, len(x)):
+            x[i,t] = (B[i] + eqn(A[i], x[:,t],i)) / A[i,i]
+            if(t>0): x[i,t] = w*x[i,t] + (1-w)*x[i,t-1]
+
+        RE = (np.linalg.norm(x[:,t] - x[:,t-1],np.inf)) / (np.linalg.norm(x[:,t],np.inf) + 0)
+        #x = xk.copy()
+
+        print(str(trial_no)+"\t"+str(x[:,t].T)+"\t"+str(RE))
+        t += 1
+        trial_no +=1
+    print("trial          x1          x2          x3          ...")
+
+    return x.T
+
+def GSrelimp(A,B):
+    iterations = 17
+    x = np.asmatrix(np.zeros((len(A),iterations),np.float64),np.float64)
+    print("trial          x1          x2          x3          ...")
+    k=10
+    t=0
+    w=1
+    while t < iterations:
+        if t>0:
+            x[:,t] = x[:,t-1].copy()
+        for i in range(0, len(x)):
+            x[i,t] = (B[i] + eqn(A[i], x[:,t],i)) / A[i,i]
+            if(t>0):
+                x[i,t] = w*x[i,t] + (1-w)*x[i,t-1]
+
+        RE = (np.linalg.norm(x[:,t] - x[:,t-1],np.inf)) / (np.linalg.norm(x[:,t],np.inf) + 0)
+
+        print(str(t+1)+"\t"+str(x[:,t].T)+"\t"+str(RE)+" \t"+str(w))
+        t += 1
+
+        if t == k+1: #in order to get the same result as in the example in T.Dowling's notes
+            deltab = np.linalg.norm(x[:,t-1]-x[:,t-2],2)
+            deltas= np.linalg.norm(x[:,t-2]-x[:,t-3],2)
+            w = (2 / (1 + np.sqrt(1-(deltab / deltas))))
+
+    print("trial          x1          x2          x3          ...")
+    return (x.T,w)
 
 def eqn(w,x,I):
 
