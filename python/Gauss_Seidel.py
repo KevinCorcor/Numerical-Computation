@@ -1,7 +1,7 @@
 import numpy as np
 
-A = np.asmatrix([[3,-1,1],[-1,3,-1],[1,-1,3]])
-B = np.asmatrix([[0],[0],[100]])
+A = np.asmatrix([[4,-1,0,0],[-1,4,-1,0],[0,-1,4,-1],[0,0,-1,3]])
+B = np.asmatrix([[15],[10],[10],[10]])
 
 def GS3x3(A,B):
     x = np.asmatrix(np.zeros(len(A),1))
@@ -19,7 +19,7 @@ def GS3x3(A,B):
 
         print(x[0],"\t",x[1],"\t",x[2],"\t",RE)
 
-def GS(A,B):
+def GSprint(A,B):
     x = np.asmatrix(np.zeros((len(A),1)))
     #xk = np.asmatrix(np.zeros((len(x),1)))
     RE = 1
@@ -40,7 +40,7 @@ def GS(A,B):
 
     return x
 
-def GSrec(A,B):
+def GSrecord(A,B):
     x = np.asmatrix(np.zeros((len(A),10)))
     #xk = np.asmatrix(np.zeros((len(x),1)))
     RE = 1
@@ -62,14 +62,13 @@ def GSrec(A,B):
 
     return x.T
 
-def GSrel(A,B):
+def GSrelax(A,B,w):
     x = np.asmatrix(np.zeros((len(A),11)))
     #xk = np.asmatrix(np.zeros((len(x),1)))
     RE = 1
     trial_no = 1
     print("trial          x1          x2          x3          ...")
     t=0
-    w=1
     while t < 11:
         if t>0: x[:,t] = x[:,t-1].copy()
         for i  in range(0, len(x)):
@@ -86,7 +85,7 @@ def GSrel(A,B):
 
     return x.T
 
-def GSrelimp(A,B):
+def GSrelaximproved(A,B):
     iterations = 17
     x = np.asmatrix(np.zeros((len(A),iterations),np.float64),np.float64)
     print("trial          x1          x2          x3          ...")
