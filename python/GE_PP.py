@@ -4,14 +4,14 @@ def GE_PP(A,b):
     n = len(A)
     A, b = np.asarray(A,dtype=np.float64),np.asarray(b,dtype=np.float64)
     Ab = np.asarray(np.c_[A, b],dtype=np.float64)
-    print(Ab)
+    #print(Ab)
 
     for k in range(n):                          #for each column of A in Ab
         #Partial Pivoting
         for i in range(k+1,n):                      #for each values in that column below the diagonal
             if abs(Ab[i][k]) > abs(Ab[k][k]):           #if one |value| is greater than another
                 Ab[[k,i]]=Ab[[i,k]]                         #swap the rows containing those values
-                print(Ab)                                   #view the swap
+                print("this is a pivot \n",Ab)                                   #view the swap
             else:                                       #otherwise
                 pass                                        #do nothing
 
@@ -21,7 +21,9 @@ def GE_PP(A,b):
             for m in range(k, n+1):                     #for each each column in a Row j
                 Ab[j][m] -=  q * Ab[k][m]                   #calculate Rj - q*Rk.  This will result in all zeros under the main diagonal
 
-    x = [0.0 for i in range(n)]                 #set of zeros
+    # x = [0.0 for i in range(n)]                 #set of zeros
+    x = np.zeros(n)
+
 
     #At this stage the matrix should be in row echelon form
         # this means all zeros below the main diagonal
