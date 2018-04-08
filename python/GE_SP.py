@@ -6,16 +6,13 @@ def GE_SP(A,b):
     Ab = np.asarray(np.c_[A, b],dtype=np.float64)
 
 
-    for k in range(n):                          #for each column of A in Ab
+    for k in range(n):
         #Scaled Pivoting
         ratiovects = np.zeros(n)
-        for i in range(k,n):                      #for each values in that column below the diagonal
+        for i in range(k,n):
             ratiovects[i] = abs(Ab[i][k])/abs(max(np.max(A[i]),np.min(A[i]), key = abs))
-        #import ipdb; ipdb.set_trace()
         Ab[[k, np.argmax(ratiovects)]] = Ab[[np.argmax(ratiovects), k]]
         A[[k, np.argmax(ratiovects)]] = A[[np.argmax(ratiovects), k]]
-
-        #print(Ab)
 
         #Forward Elimination - Subtracting rows
         for j in range(k+1,n):                      #for each row under the diagonal of the kth column
