@@ -4,6 +4,7 @@ import numpy as np
 import scipy as sc
 from numpy import linalg as lanp
 from scipy import linalg as lasc
+from sympy import *
 
 def hilbertIT(n):
     """ Iterative method of populating an nxn hilbert matrix
@@ -16,11 +17,11 @@ def hilbertIT(n):
             The hilbert matrix
     """
 
-    H = np.asmatrix(np.identity(n))
+    H = np.asmatrix(np.identity(n),Rational)    #doesn't need to be an identity matrix
 
     for row in range(0,n):
         for col in range(0,n):
-            H[row,col] = 1/((row+1) + (col+1)-1)
+            H[row,col] = Rational(1,((row+1) + (col+1)-1))
 
     return H
 
