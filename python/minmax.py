@@ -2,6 +2,8 @@ from sympy import *
 import numpy as np
 import scipy as sc
 from itertools import product
+init_printing() #prints the equation nicely
+
 ###############################################################################
 #                   FOR LINEAR EQUATIONS ONLY
 ###############################################################################
@@ -39,6 +41,9 @@ for cp in range(0,len(criticalPts_X)):      #cycle through the critical points
     else:#must be equal to 0
          poi_XY.append(tuple((criticalPts_X[cp], f.subs(x,criticalPts_X[cp]))))
 
-print("maximum: \n", maxima_XY,\
+init_printing(pretty_print=true)
+print("f(x) = ")
+pprint(f)
+print("\nmaximum: \n", maxima_XY,\
       "\nminimum: \n", minima_XY,\
       "\nPoint of Inflection: \n", poi_XY)
