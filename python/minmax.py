@@ -8,7 +8,7 @@ from itertools import product
 x = Symbol('x') #x is our variable
 
 #####################################################
-f =  (0*x**4)+ (2*x**3) + (-9*x**2) + (12*x) + (-3)                     #any linear function
+f =  (0*x**4)+ (1*x**3) + (0*x**2) + (0*x) + (0)                     #any linear function
 #####################################################
 #df/dx = f'(x)
 fd = f.diff(x,Real=true)        #using sympy to differentiate
@@ -38,3 +38,7 @@ for cp in range(0,len(criticalPts_X)):      #cycle through the critical points
         minima_XY.append(tuple((criticalPts_X[cp], corres_Y)))
     else:#must be equal to 0
          poi_XY.append(tuple((criticalPts_X[cp], f.subs(x,criticalPts_X[cp]))))
+
+print("maximum: \n", maxima_XY,\
+      "\nminimum: \n", minima_XY,\
+      "\nPoint of Inflection: \n", poi_XY)
