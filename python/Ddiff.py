@@ -17,13 +17,30 @@ def DDiff(x,fx):
             else:
                 break #no need to make any more calculations for this trial
         k += 1
-    return np.diag(fx) # return the upper diagonal
+    return (fx , np.diag(fx)) # return the upper diagonal
 
 
-x_in = np.asarray([[3],[4],[5],[6]],Rational)     #seems to work regardless of input values
+x_in = np.asarray([[1],[2],[4]],Rational)     #seems to work regardless of input values
 x = np.asarray(np.zeros((2*len(x_in)-1,1)),Rational)
 x[::2] = x_in[:]                                    #add spacing
 
-fx_in = np.asarray([[180],[235],[318],[435]],Rational)
+fx_in = np.asarray([[0],[1],[2]],Rational)
 fx = np.asarray(np.zeros((2*len(fx_in)-1,len(fx_in))),Rational)
 fx[::2,0][:] = fx_in[:].T                              #add spacing
+
+#CALCULATE POLYNOMIAL AND SIMPLIFY
+def poly(diag):
+    x = Symbol('x')
+    f = diag[0]
+
+    for d in range(len(diag)-1,0,-1):
+        c=d
+        r=1
+        while c>0:
+            r = r*(x-c)                    #any linear function
+
+            c = c-1
+        print(r)
+        f = f + diag[d]*r
+    f=simplify(f)
+    return f
